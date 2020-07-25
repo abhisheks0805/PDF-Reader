@@ -45,9 +45,7 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
 
         //initializing adapter
         recyclerView = findViewById(R.id.recycler_view);
-        //adding divider
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+
 
         dir = new File(Environment.getExternalStorageDirectory().toString());
         askPermission();
