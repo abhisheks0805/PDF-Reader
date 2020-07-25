@@ -1,13 +1,18 @@
 package com.theandroiddev.pdfreader;
 
+import android.content.Intent;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class List_View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener //implementing click listner on viewholder
+public class List_View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener//implementing click listner on viewholder
 {
     private TextView fileName;
     private ImageView imageView;
@@ -22,6 +27,7 @@ public class List_View_Holder extends RecyclerView.ViewHolder implements View.On
         this.onClickItemListner = onClickItemListner;
 
         itemView.setOnClickListener(this);
+
     }
 
     public TextView getFileName()
@@ -35,4 +41,7 @@ public class List_View_Holder extends RecyclerView.ViewHolder implements View.On
     {
         onClickItemListner.onClickitem(getAdapterPosition());
     }
+
+
+
 }

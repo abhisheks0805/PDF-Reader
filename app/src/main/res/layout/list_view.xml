@@ -33,7 +33,20 @@
             android:text="Lorem Ipsum"
             android:textSize="18sp" />
 
-
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/moreOptnBtn"
+        android:layout_marginEnd="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:onClick="showPopUp"
+        android:layout_centerInParent="true"
+        android:background="#000000FF"
+        android:src="@drawable/ic_baseline_more_vert_24"
+        tools:src="@drawable/ic_baseline_more_vert_24"
+        android:layout_marginRight="10dp" />
 
 </RelativeLayout>

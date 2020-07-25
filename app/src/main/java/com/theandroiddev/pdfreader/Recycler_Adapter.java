@@ -1,6 +1,7 @@
 package com.theandroiddev.pdfreader;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,8 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder>
     public void onBindViewHolder(@NonNull List_View_Holder holder, int position)
     {
         String formattedFileName = data_file.get(position).toString();
-        holder.getFileName().setText(formattedFileName.substring(formattedFileName.lastIndexOf('/')+1));;
+        holder.getFileName().setText(formattedFileName.substring(formattedFileName.lastIndexOf('/')+1));
+
     }
 
     @Override
