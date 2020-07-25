@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
 
     private RecyclerView recyclerView;
     public static ArrayList<File> data_file = new ArrayList<>(); //data file
-    File dir[]; //location of file
+    File dir; //location of file
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -49,9 +49,7 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        dir = new File[] {Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                Environment.getExternalStorageDirectory(),Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-       };
+        dir = new File(Environment.getExternalStorageDirectory().toString());
         askPermission();
 
     }
@@ -65,10 +63,7 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
         else
         {
             //if permission is already granted go do the things
-            for(int i =0; i<dir.length ;i++)
-            {
-                getFile(dir[i]);
-            }
+           getFile(dir);
 
             recyclerView.setAdapter(new Recycler_Adapter(data_file,this));
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -88,10 +83,7 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
 
-                for(int i =0; i<dir.length ;i++)
-                {
-                    getFile(dir[i]);
-                }
+                getFile(dir);
                 recyclerView.setAdapter(new Recycler_Adapter(data_file,this));
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
             }
@@ -100,16 +92,26 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
 
     private  ArrayList<File> getFile(File dir)
     {
-        File[] listfiles = dir.listFiles();  //getting all files from dir and storing it in an array
-
-        for(int i = 0; i < listfiles.length; i++) //iterating through all elements of listfiles
+        File[]  listFile = dir.listFiles();  //getting all files from dir and storing it in an array
+        if (listFile != null && listFile.length > 0)
         {
-            String filename = listfiles[i].getAbsolutePath(); //getting location of each array element and storing it into filename
-            if(filename.endsWith(".pdf")) //checking if pdf
+            for(int i = 0; i < listFile.length; i++) //iterating through all elements of listfiles
             {
-                data_file.add(listfiles[i]); //if contains pdf sending it to our list of data
+                if (listFile[i].isDirectory()) //checkingg if its folder
+                {
+                    getFile(listFile[i]); //if its directory then go back
+                }
+                else
+                {
+                    if (listFile[i].getName().endsWith(".pdf"))
+                    {
+                        data_file.add(listFile[i]);
+                    }
+                }
             }
         }
+
+
         return data_file; //returning new modified data file
     }
 
@@ -122,5 +124,6 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
         intent.putExtra("position",position);
         startActivity(intent);
     }
+
 
 }
