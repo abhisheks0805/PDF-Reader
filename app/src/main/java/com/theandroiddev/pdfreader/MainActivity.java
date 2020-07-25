@@ -36,25 +36,20 @@ import org.w3c.dom.Document;
 import java.io.File;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements Recycler_Adapter.onClickItemListner,PopupMenu.OnMenuItemClickListener
+public class MainActivity extends AppCompatActivity implements Recycler_Adapter.onClickItemListner
 {
     private final int REQUEST_CODE = 123;
 
     private RecyclerView recyclerView;
     public static ArrayList<File> data_file = new ArrayList<>(); //data file
     private File dir; //location of file
-    private ImageButton moreOptnBtn;
-    PopupMenu popupMenu;
-
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        moreOptnBtn = findViewById(R.id.moreOptnBtn);
+
         recyclerView = findViewById(R.id.recycler_view);
         dir = new File(Environment.getExternalStorageDirectory().toString());
 
@@ -132,38 +127,4 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
         startActivity(intent);
     }
 
-    //onClickMoreOPtn
-
-    public void showPopUp(View view)
-    {
-        popupMenu = new PopupMenu(MainActivity.this,view); //2nd parameter is anchor means where we want our popup so im saying at btn
-        popupMenu.setOnMenuItemClickListener((PopupMenu.OnMenuItemClickListener) this);
-        popupMenu.inflate(R.menu.popup_menu);
-        popupMenu.show();
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) //handles click on item inside popup
-    {
-       switch(menuItem.getItemId())
-       {
-           case R.id.delete:
-               Toast.makeText(this,"Deleted",Toast.LENGTH_SHORT).show();
-               break;
-
-           case R.id.share:
-               Uri uri = FileProvider.getUriForFile(this,getApplicationContext().getPackageName()+".provider",data_file.get(2));
-               Intent intent = new Intent(); //creating object of class Intent
-               intent.setAction(Intent.ACTION_SEND); //setting action for intent in this case sending data
-               intent.setType("application/pdf");
-               intent.putExtra(Intent.EXTRA_STREAM, uri);
-               intent = intent.createChooser(intent,"Share");
-               intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-               //starting intent acctivity
-               startActivity(intent);
-
-               break;
-       }
-       return true;
-    }
 }

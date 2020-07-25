@@ -17,6 +17,8 @@ public class List_View_Holder extends RecyclerView.ViewHolder implements View.On
     private TextView fileName;
     private ImageView imageView;
     Recycler_Adapter.onClickItemListner onClickItemListner;
+    private ImageButton moreOptnBtn;
+    PopupMenu popupMenu;
 
     public List_View_Holder(View itemView, Recycler_Adapter.onClickItemListner onClickItemListner)
     {
@@ -25,6 +27,7 @@ public class List_View_Holder extends RecyclerView.ViewHolder implements View.On
         imageView = itemView.findViewById(R.id.pdf_image);
         imageView.setImageResource(R.drawable.pdf_icon);
         this.onClickItemListner = onClickItemListner;
+        moreOptnBtn = itemView.findViewById(R.id.moreOptnBtn);
 
         itemView.setOnClickListener(this);
 
@@ -40,6 +43,11 @@ public class List_View_Holder extends RecyclerView.ViewHolder implements View.On
     public void onClick(View view)
     {
         onClickItemListner.onClickitem(getAdapterPosition());
+    }
+
+    public ImageButton getMoreOptnBtn()
+    {
+        return moreOptnBtn;
     }
 
 
