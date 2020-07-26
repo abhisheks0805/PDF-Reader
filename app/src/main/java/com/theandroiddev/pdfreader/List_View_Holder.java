@@ -1,5 +1,6 @@
 package com.theandroiddev.pdfreader;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,7 @@ public class List_View_Holder extends RecyclerView.ViewHolder implements View.On
     }
 
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onClick(View view)
     {
@@ -49,6 +51,7 @@ public class List_View_Holder extends RecyclerView.ViewHolder implements View.On
     {
         return moreOptnBtn;
     }
+
 
 
 

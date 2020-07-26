@@ -3,11 +3,14 @@ package com.theandroiddev.pdfreader;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.app.SearchManager;
+import android.widget.SearchView.OnQueryTextListener;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -22,6 +25,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -35,6 +39,7 @@ import org.w3c.dom.Document;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements Recycler_Adapter.onClickItemListner
 {
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
     private RecyclerView recyclerView;
     public static ArrayList<File> data_file = new ArrayList<>(); //data file
     private File dir; //location of file
+    private Recycler_Adapter recycler_adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -67,8 +73,10 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
         {
             //if permission is already granted go do the things
             getFile(dir);
-            recyclerView.setAdapter(new Recycler_Adapter(data_file,this));
+            recycler_adapter = new Recycler_Adapter(data_file,this);
+            recyclerView.setAdapter(recycler_adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         }
     }
 
@@ -86,8 +94,10 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
             {
 
                 getFile(dir);
-                recyclerView.setAdapter(new Recycler_Adapter(data_file,this));
+                recycler_adapter = new Recycler_Adapter(data_file,this);
+                recyclerView.setAdapter(recycler_adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
             }
         }
     }
@@ -127,4 +137,29 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
         startActivity(intent);
     }
 
+    //search creation
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.search_menu,menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                recycler_adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+
+    }
 }
