@@ -57,8 +57,9 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
         holder.getFileSize().setText(size+"KB");
         //date
         Date lastModified = new Date(file.lastModified());
-        Log.i("test",lastModified+"");
-        holder.getFileDate().setText(lastModified.toString());
+        String formattedLastModified = lastModified.toString();
+        String formattedDate = formattedLastModified.substring(4,10)+formattedLastModified.substring(29,34);;
+        holder.getFileDate().setText(formattedDate);
 
         //onClickMoreOPtn
 
