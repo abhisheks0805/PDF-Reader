@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> implements Filterable
@@ -51,6 +52,13 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
     {
         final String formattedFileName = data_file.get(position).toString();
         holder.getFileName().setText(formattedFileName.substring(formattedFileName.lastIndexOf('/')+1));
+        File file = new File(data_file.get(position).toString());
+        long size = Long.parseLong(String.valueOf(file.length()/1024));
+        holder.getFileSize().setText(size+"KB");
+        //date
+        Date lastModified = new Date(file.lastModified());
+        Log.i("test",lastModified+"");
+        holder.getFileDate().setText(lastModified.toString());
 
         //onClickMoreOPtn
 

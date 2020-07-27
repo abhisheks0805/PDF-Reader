@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class List_View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener//implementing click listner on viewholder
 {
     private TextView fileName;
+    private TextView fileSize;
+    private TextView fileDate;
     private ImageView imageView;
     Recycler_Adapter.onClickItemListner onClickItemListner;
     private ImageButton moreOptnBtn;
@@ -24,7 +26,9 @@ public class List_View_Holder extends RecyclerView.ViewHolder implements View.On
     public List_View_Holder(View itemView, Recycler_Adapter.onClickItemListner onClickItemListner)
     {
         super(itemView);
+        fileSize = itemView.findViewById(R.id.fileSize);
         fileName = itemView.findViewById(R.id.file_name);
+        fileDate = itemView.findViewById(R.id.fileDate);
         imageView = itemView.findViewById(R.id.pdf_image);
         imageView.setImageResource(R.drawable.pdf_icon);
         this.onClickItemListner = onClickItemListner;
@@ -51,6 +55,12 @@ public class List_View_Holder extends RecyclerView.ViewHolder implements View.On
     {
         return moreOptnBtn;
     }
+
+    public TextView getFileSize()
+    {
+        return fileSize;
+    }
+    public TextView getFileDate(){return fileDate;}
 
 
 
