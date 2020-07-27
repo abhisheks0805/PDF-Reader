@@ -28,6 +28,7 @@ public class List_View_Holder extends RecyclerView.ViewHolder implements View.On
         super(itemView);
         fileSize = itemView.findViewById(R.id.fileSize);
         fileName = itemView.findViewById(R.id.file_name);
+        fileName.setSelected(true); //marquee
         fileDate = itemView.findViewById(R.id.fileDate);
         imageView = itemView.findViewById(R.id.pdf_image);
         imageView.setImageResource(R.drawable.pdf_icon);

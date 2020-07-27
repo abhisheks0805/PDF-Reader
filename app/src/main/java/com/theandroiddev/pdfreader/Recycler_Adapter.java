@@ -52,12 +52,13 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
     {
         final String formattedFileName = data_file.get(position).toString();
         holder.getFileName().setText(formattedFileName.substring(formattedFileName.lastIndexOf('/')+1));
+
         File file = new File(data_file.get(position).toString());
-        long size = Long.parseLong(String.valueOf(file.length()/1024));
+        final long size = Long.parseLong(String.valueOf(file.length()/1024)); //TODO
         holder.getFileSize().setText(size+"KB");
         //date
         Date lastModified = new Date(file.lastModified());
-        String formattedLastModified = lastModified.toString();
+        final String formattedLastModified = lastModified.toString();
         String formattedDate = formattedLastModified.substring(4,10)+formattedLastModified.substring(29,34);;
         holder.getFileDate().setText(formattedDate);
 
@@ -113,9 +114,17 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
                              intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                              //starting intent activity
                              holder.itemView.getContext().startActivity(intent);
-
                              break;
+
+                                  case R.id.detailspopup:
+                                     Intent detailsIntent = new Intent(holder.itemView.getContext(),Details.class);
+                                     detailsIntent.putExtra("filename","location: "+formattedFileName+ "\n" + "\n" + "Date Created "+ formattedLastModified + "\n" + "\n" +"file size "+ size+"KB");
+                                     holder.itemView.getContext().startActivity(detailsIntent);
+                                      break;
+
                               }
+
+
                               return true;
                           }
                       });
@@ -154,9 +163,8 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
             {
                 if(filteredList.addAll(data_file_all))
                 {
-                    Log.i("test",data_file_all.toString());
+                    data_file_all.toString();
                 }
-                Log.i("test","Empty");
             }
             else
             {
@@ -165,7 +173,6 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
                     if(results.toString().toLowerCase().contains(charSequence.toString().toLowerCase()))
                     {
                         filteredList.add(results);
-                        Log.i("test","Added");
                     }
                 }
             }

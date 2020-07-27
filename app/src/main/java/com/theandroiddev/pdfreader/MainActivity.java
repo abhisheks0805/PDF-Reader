@@ -162,4 +162,5 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
         return super.onCreateOptionsMenu(menu);
 
     }
+
 }
