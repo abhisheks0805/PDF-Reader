@@ -2,6 +2,8 @@ package com.theandroiddev.pdfreader;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -29,5 +31,6 @@ public class Pdf_View extends AppCompatActivity
         .enableAnnotationRendering(true)
         .scrollHandle(new DefaultScrollHandle(this))
         .load();
+
     }
 }

@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.app.SearchManager;
+import android.view.MenuInflater;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.SearchView.OnQueryTextListener;
 
 import android.Manifest;
@@ -39,7 +42,10 @@ import org.w3c.dom.Document;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.zip.Inflater;
+
+import hotchemi.android.rate.AppRate;
 
 public class MainActivity extends AppCompatActivity implements Recycler_Adapter.onClickItemListner
 {
@@ -49,14 +55,30 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
     public static ArrayList<File> data_file = new ArrayList<>(); //data file
     private File dir; //location of file
     private Recycler_Adapter recycler_adapter;
+    private FrameLayout recylerframelayout;
+    private FrameLayout progressframe;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         recyclerView = findViewById(R.id.recycler_view);
+        recylerframelayout = findViewById(R.id.recycler_frame);
+        progressframe = findViewById(R.id.progress_Frame);
+
+        recylerframelayout.setVisibility(View.GONE);
+        progressframe.setVisibility(View.VISIBLE);
+
+        AppRate.with(this)
+        .setInstallDays(2)
+        .setLaunchTimes(2)
+        .setRemindInterval(2)
+        .monitor();
+        AppRate.showRateDialogIfMeetsConditions(this);
+
+
         dir = new File(Environment.getExternalStorageDirectory().toString());
 
         askPermission();
@@ -76,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
             recycler_adapter = new Recycler_Adapter(data_file,this);
             recyclerView.setAdapter(recycler_adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            progressframe.setVisibility(View.GONE);
+            recylerframelayout.setVisibility(View.VISIBLE);
+
 
         }
     }
@@ -97,6 +122,11 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
                 recycler_adapter = new Recycler_Adapter(data_file,this);
                 recyclerView.setAdapter(recycler_adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                progressframe.setVisibility(View.GONE);
+                recylerframelayout.setVisibility(View.VISIBLE);
+
+
+
 
             }
         }
@@ -162,5 +192,4 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
         return super.onCreateOptionsMenu(menu);
 
     }
-
 }

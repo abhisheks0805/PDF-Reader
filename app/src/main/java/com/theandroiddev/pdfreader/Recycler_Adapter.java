@@ -35,7 +35,6 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
         this.data_file_all = new ArrayList<>(data_file); //always use list to array list to prevent bugs
         this.onClickItemListner = onClickItemListner;
     }
-
     @NonNull
     @Override
     public List_View_Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
@@ -53,7 +52,9 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
         final String formattedFileName = data_file.get(position).toString();
         holder.getFileName().setText(formattedFileName.substring(formattedFileName.lastIndexOf('/')+1));
 
-        File file = new File(data_file.get(position).toString());
+
+
+        final File file = new File(data_file.get(position).toString());
         final long size = Long.parseLong(String.valueOf(file.length()/1024)); //TODO
         holder.getFileSize().setText(size+"KB");
         //date
@@ -63,8 +64,7 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
         holder.getFileDate().setText(formattedDate);
 
         //onClickMoreOPtn
-
-      holder.getMoreOptnBtn().setOnClickListener(new View.OnClickListener()
+        holder.getMoreOptnBtn().setOnClickListener(new View.OnClickListener()
       {
           @Override
           public void onClick(View view)
@@ -83,26 +83,9 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
                           {
                               switch(menuItem.getItemId())
                               {
-//                                  case R.id.delete:
-//                                      //Uri uri = FileProvider.getUriForFile(holder.itemView.getContext(),holder.itemView.getContext().getPackageName()+".provider",data_file.get(position));
-//                                      File fdelete = new File(data_file.get(position).toString());
-//                                      if(fdelete.exists())
-//                                      {
-//                                          Toast.makeText(holder.itemView.getContext(),"File Exists",Toast.LENGTH_SHORT).show();
-//                                          if(holder.itemView.getContext().deleteFile(fdelete.toString()))
-//                                          {
-//                                              Toast.makeText(holder.itemView.getContext(),"Deleted",Toast.LENGTH_SHORT).show();
-//                                          }
-//                                          else
-//                                          {
-//                                              Toast.makeText(holder.itemView.getContext(),"Not Deleted",Toast.LENGTH_SHORT).show();
-//                                          }
-//                                      }
-//                                      else
-//                                      {
-//                                          Toast.makeText(holder.itemView.getContext(),"File Does Not Exist",Toast.LENGTH_SHORT).show();
-//                                      }
-//                                      break;
+                                  case R.id.delete:
+                                      Toast.makeText(holder.itemView.getContext(),"Not Allowed",Toast.LENGTH_SHORT).show();
+                                      return true;
 
                          case R.id.share:
                             Uri uri = FileProvider.getUriForFile(holder.itemView.getContext(),holder.itemView.getContext().getPackageName()+".provider",data_file.get(position));
@@ -120,10 +103,8 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
                                      Intent detailsIntent = new Intent(holder.itemView.getContext(),Details.class);
                                      detailsIntent.putExtra("filename","location: "+formattedFileName+ "\n" + "\n" + "Date Created "+ formattedLastModified + "\n" + "\n" +"file size "+ size+"KB");
                                      holder.itemView.getContext().startActivity(detailsIntent);
-                                      break;
-
+                                     return true;
                               }
-
 
                               return true;
                           }
@@ -133,8 +114,6 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
               });
                   }
               });
-
-
     }
 
     @Override
