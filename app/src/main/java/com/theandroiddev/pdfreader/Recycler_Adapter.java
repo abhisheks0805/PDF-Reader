@@ -2,6 +2,7 @@ package com.theandroiddev.pdfreader;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -27,6 +29,7 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
     private ArrayList<File> data_file = new ArrayList<>();
     private List<File>data_file_all; //becoz data_file will we modified by search so this will keep track of every element
     private onClickItemListner onClickItemListner;
+    private File file;
 
 
     public Recycler_Adapter(ArrayList<File> data_file, onClickItemListner onClickItemListner)
@@ -54,14 +57,21 @@ public class Recycler_Adapter extends RecyclerView.Adapter<List_View_Holder> imp
 
 
 
-        final File file = new File(data_file.get(position).toString());
+        file = new File(data_file.get(position).toString());
         final long size = Long.parseLong(String.valueOf(file.length()/1024)); //TODO
         holder.getFileSize().setText(size+"KB");
         //date
         Date lastModified = new Date(file.lastModified());
         final String formattedLastModified = lastModified.toString();
-        String formattedDate = formattedLastModified.substring(4,10)+formattedLastModified.substring(29,34);;
-        holder.getFileDate().setText(formattedDate);
+        try
+        {
+            String formattedDate = formattedLastModified.substring(4,10)+formattedLastModified.substring(29,34);;
+            holder.getFileDate().setText(formattedDate);
+        }
+        catch(Exception e)
+        {
+           //error
+        }
 
         //onClickMoreOPtn
         holder.getMoreOptnBtn().setOnClickListener(new View.OnClickListener()

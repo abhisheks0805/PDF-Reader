@@ -37,6 +37,13 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import org.w3c.dom.Document;
 
@@ -57,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
     private Recycler_Adapter recycler_adapter;
     private FrameLayout recylerframelayout;
     private FrameLayout progressframe;
+    private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,11 +73,27 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-8380207947701170/1266026858");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        //ad code
+        MobileAds.initialize(this, new OnInitializationCompleteListener()
+        {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus)
+            {
+            }
+        });
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         recyclerView = findViewById(R.id.recycler_view);
         recylerframelayout = findViewById(R.id.recycler_frame);
         progressframe = findViewById(R.id.progress_Frame);
 
         recylerframelayout.setVisibility(View.GONE);
+
         progressframe.setVisibility(View.VISIBLE);
 
         AppRate.with(this)
@@ -100,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             progressframe.setVisibility(View.GONE);
             recylerframelayout.setVisibility(View.VISIBLE);
-
 
         }
     }
@@ -159,12 +183,33 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
 
     //setting onClick listner for items of recycler view
     @Override
-    public void onClickitem(int position)
+    public void onClickitem(final int position)
     {
-        data_file.get(position); //getting file at position of index
-        Intent intent = new Intent(this,Pdf_View.class);
-        intent.putExtra("position",position);
-        startActivity(intent);
+        if (mInterstitialAd.isLoaded())
+        {
+            mInterstitialAd.show();
+        }
+        else
+            {
+                data_file.get(position); //getting file at position of index
+                Intent intent = new Intent(this,Pdf_View.class);
+                intent.putExtra("position",position);
+                startActivity(intent);
+            }
+        mInterstitialAd.setAdListener(new AdListener()
+        {
+            @Override
+            public void onAdClosed()
+            {
+                data_file.get(position); //getting file at position of index
+                Intent intent = new Intent(MainActivity.this,Pdf_View.class);
+                intent.putExtra("position",position);
+                startActivity(intent);
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+
+        });
+
     }
 
     //search creation

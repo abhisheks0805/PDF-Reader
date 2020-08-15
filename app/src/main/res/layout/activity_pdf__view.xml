@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pdf_View">
-
+    tools:context=".Pdf_View"
+    android:orientation="vertical">
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"/>
-
+        android:layout_margin="10dp"
+        />
 </LinearLayout>
