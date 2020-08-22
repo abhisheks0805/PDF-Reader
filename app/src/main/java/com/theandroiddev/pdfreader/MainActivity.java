@@ -50,6 +50,7 @@ import org.w3c.dom.Document;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.zip.Inflater;
 
 import hotchemi.android.rate.AppRate;
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
         dir = new File(Environment.getExternalStorageDirectory().toString());
 
         askPermission();
-
     }
 
     public void askPermission()
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
         {
             //if permission is already granted go do the things
             getFile(dir);
+            Collections.sort(data_file);
             recycler_adapter = new Recycler_Adapter(data_file,this);
             recyclerView.setAdapter(recycler_adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -143,15 +144,13 @@ public class MainActivity extends AppCompatActivity implements Recycler_Adapter.
             {
 
                 getFile(dir);
+                //TODO
+                Collections.sort(data_file);
                 recycler_adapter = new Recycler_Adapter(data_file,this);
                 recyclerView.setAdapter(recycler_adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
                 progressframe.setVisibility(View.GONE);
                 recylerframelayout.setVisibility(View.VISIBLE);
-
-
-
-
             }
         }
     }

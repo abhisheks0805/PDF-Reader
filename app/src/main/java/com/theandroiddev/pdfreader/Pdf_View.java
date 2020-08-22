@@ -33,11 +33,19 @@ public class Pdf_View extends AppCompatActivity
     }
     private void displayPdf()
     {
-        pdf_view.fromFile(MainActivity.data_file.get(pos))
-        .enableSwipe(true)
-        .enableAnnotationRendering(true)
-        .scrollHandle(new DefaultScrollHandle(this))
-        .load();
+        try
+        {
+            pdf_view.fromFile(MainActivity.data_file.get(pos))
+                    .enableSwipe(true)
+                    .enableAnnotationRendering(true)
+                    .scrollHandle(new DefaultScrollHandle(this))
+                    .load();
+        }
+        catch (Exception e)
+        {
+            //
+        }
+
 
     }
 }
